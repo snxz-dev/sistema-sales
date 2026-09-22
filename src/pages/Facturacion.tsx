@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Search, Trash2 } from 'lucide-react';
 
 const Facturacion: React.FC = () => {
-  const [items, setItems] = useState([
+  const [items] = useState([
     { id: 1, desc: 'Producto de prueba A', cant: 2, precio: 15.00 }
   ]);
 

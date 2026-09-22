@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Electron release
+release/
+dist-electron/
+dist/
+Documentacion_Final_SISTEMASALES.docx
