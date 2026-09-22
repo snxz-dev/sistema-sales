@@ -25,7 +25,22 @@ Las pequeñas y medianas empresas comerciales a menudo sufren de un manejo inefi
 
 ## 📸 Interfaz de Usuario
 
-*(Captura de pantalla de la interfaz de usuario. Al clonar el proyecto, el diseño se renderiza mediante CSS Modules y React).*
+A continuación se presenta la interfaz gráfica del sistema, renderizada nativamente mediante Electron y estilizada con CSS Modules.
+
+### 1. Panel de Control (Dashboard)
+![Dashboard](assets/dashboard.png)
+
+### 2. Módulo de Facturación (Punto de Venta)
+![Facturación](assets/facturacion.png)
+
+### 3. Módulo de Inventario
+![Inventario](assets/inventario.png)
+
+### 4. Módulo de Abastecimiento (Órdenes de Compra)
+![Abastecimiento](assets/abastecimiento.png)
+
+### 5. Gestión de Entidades (Clientes, Proveedores, Distritos)
+![Entidades](assets/entidades.png)
 
 ---
 
