@@ -1,109 +1,125 @@
-# SISTEMA_SALES S.A. - Sistema Híbrido de Gestión Empresarial
+# SISTEMA_SALES S.A. - Sistema de Gestión Empresarial Híbrido
 
-![Arquitectura](https://img.shields.io/badge/Arquitectura-MVC-blue) ![Stack](https://img.shields.io/badge/Stack-React%20%7C%20Electron%20%7C%20SQLite-success) ![Estado](https://img.shields.io/badge/Estado-Producci%C3%B3n-brightgreen)
+![Estado](https://img.shields.io/badge/Estado-Producci%C3%B3n-brightgreen)
+![Versión](https://img.shields.io/badge/Versi%C3%B3n-1.0.0-blue)
+![React](https://img.shields.io/badge/React-19.0.0-61dafb?logo=react)
+![Electron](https://img.shields.io/badge/Electron-44.4.3-47848f?logo=electron)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite)
 
-## 📌 Descripción General
+## 📌 Descripción del Proyecto
 
-**SISTEMA_SALES** es una aplicación de escritorio multiplataforma diseñada para unificar, centralizar y automatizar los procesos operativos críticos de una empresa: **Ventas, Facturación, Control de Inventario y Abastecimiento**. 
+SISTEMA_SALES es una aplicación de escritorio integral desarrollada como proyecto académico de titulación. Está diseñada para unificar, centralizar y automatizar los procesos operativos críticos de una mediana empresa comercial, eliminando la dependencia de hojas de cálculo fragmentadas y procesos manuales.
 
-El sistema reemplaza los procesos manuales y hojas de cálculo fragmentadas mediante una solución unificada que garantiza la integridad de los datos mediante transacciones ACID locales, sin necesidad de infraestructura de servidores externos ni conexión a internet obligatoria.
+### Problema que resuelve
+Las pequeñas y medianas empresas comerciales a menudo sufren de un manejo ineficiente de su inventario, ventas y compras. La desconexión entre la facturación y el almacén produce desfases de stock, ventas de productos inexistentes y pérdida de información crítica. Este sistema unifica todos los departamentos en una sola fuente de la verdad.
 
----
-
-## 🏛️ Arquitectura Técnica
-
-El sistema ha sido construido utilizando una **Arquitectura de Capas Híbrida**, embebiendo tecnologías web modernas dentro de un contenedor nativo de escritorio.
-
-```mermaid
-graph TD
-    subgraph Frontend [Capa de Presentación - React]
-        UI[Interfaces de Usuario]
-        Components[Componentes Reutilizables]
-        Hooks[Gestión de Estado]
-    end
-
-    subgraph IPC [Capa de Comunicación]
-        Preload[Context Bridge / Preload Script]
-    end
-
-    subgraph Backend [Capa Lógica y Datos - Node.js]
-        Controllers[Controladores IPC]
-        Services[Lógica de Negocio y Transacciones]
-        SQLite[(Base de Datos SQLite)]
-    end
-
-    UI --> Hooks
-    Hooks --> Preload
-    Preload -->|IPC Main| Controllers
-    Controllers --> Services
-    Services <-->|better-sqlite3| SQLite
-```
-
-### Componentes del Stack
-1. **Frontend (React 19 + TypeScript + Vite):** Proporciona una interfaz reactiva, construida con componentes modulares y tipado estricto. La compilación se optimiza mediante Vite.
-2. **Contenedor (Electron):** Permite el acceso nativo al sistema operativo. Se ha configurado con `contextIsolation` activado, separando estrictamente el hilo de renderizado del hilo principal (Node.js) por motivos de seguridad.
-3. **Backend Local (Node.js):** Estructurado bajo el patrón **MVC (Modelo-Vista-Controlador)**. Los controladores exponen las funciones a través de `ipcMain`, delegando la carga a los Servicios.
-4. **Persistencia (SQLite3):** A través de `better-sqlite3`, la base de datos se guarda en el directorio local del usuario (`userData`). Se implementan **transacciones atómicas (BEGIN/COMMIT/ROLLBACK)** para operaciones críticas como la facturación y actualización de stock.
+### Características Principales
+- **Punto de Venta (Facturación):** Emisión de facturas con cálculo automático de IVA y validación en tiempo real de stock disponible.
+- **Control de Inventario:** Descuento automático de stock al facturar.
+- **Abastecimiento:** Generación de órdenes de compra a proveedores.
+- **Directorio Centralizado:** Gestión relacional de Clientes, Proveedores y Vendedores, organizados por distritos geográficos.
+- **Integridad Transaccional (ACID):** Rollbacks automáticos ante errores de inserción, asegurando que el inventario jamás se corrompa por una venta a medias.
+- **Despliegue Local Seguro:** Base de datos embebida que no requiere conexión a internet para operar.
 
 ---
 
-## 💾 Esquema de Base de Datos (Modelo Relacional)
+## 📸 Interfaz de Usuario
 
-La integridad referencial está garantizada mediante restricciones `FOREIGN KEY` habilitadas nativamente (`PRAGMA foreign_keys = ON`).
-
-```mermaid
-erDiagram
-    CLIENTE ||--o{ FACTURA : tiene
-    VENDEDOR ||--o{ FACTURA : procesa
-    DISTRITO ||--o{ CLIENTE : ubica
-    DISTRITO ||--o{ PROVEEDOR : ubica
-    DISTRITO ||--o{ VENDEDOR : ubica
-    FACTURA ||--|{ DETALLE_FACTURA : contiene
-    PRODUCTO ||--o{ DETALLE_FACTURA : incluye
-    PROVEEDOR ||--o{ ORDEN_COMPRA : recibe
-    ORDEN_COMPRA ||--|{ DETALLE_ORDEN : detalla
-    PRODUCTO ||--o{ DETALLE_ORDEN : solicita
-    PROVEEDOR }o--o{ PRODUCTO : abastece
-```
+*(Captura de pantalla de la interfaz de usuario. Al clonar el proyecto, el diseño se renderiza mediante CSS Modules y React).*
 
 ---
 
-## 🚀 Guía de Instalación y Clonación (Especial para Windows)
+## 🛠 Tecnologías Utilizadas
 
-Dado que la base de datos utiliza una librería nativa escrita en C++ (`better-sqlite3`), el proceso de compilación varía según el sistema operativo. **Siga estas instrucciones si está en Windows:**
+Este proyecto implementa una arquitectura híbrida de última generación, encapsulando tecnologías web dentro de un entorno nativo:
 
-### 1. Requisitos Previos
-- **Node.js**: Versión estable (LTS) recomendada v20 o v22. (Evite usar la v26 si su sistema no posee las herramientas de compilación de Visual Studio).
-- **Git** instalado en el sistema.
+- **Frontend:** React 19, TypeScript, Vite, CSS Modules.
+- **Motor de Escritorio:** Electron.
+- **Backend Integrado:** Node.js (Main Process).
+- **Base de Datos:** SQLite3 (mediante el driver sincrónico `better-sqlite3`).
+- **Empaquetado:** `electron-builder` configurado en el `package.json`.
 
-### 2. Clonación del Repositorio
-Abre tu terminal nativa (**CMD** o **PowerShell** en Windows) y ejecuta:
-```cmd
+---
+
+## 🏛 Arquitectura del Sistema
+
+SISTEMA_SALES aplica una estricta arquitectura Modelo-Vista-Controlador (MVC) y una separación de contextos (*Context Isolation*).
+
+1. **React (Vista):** El usuario interactúa con la interfaz gráfica. Los hooks envían solicitudes a través de una API expuesta globalmente.
+2. **Context Bridge (Preload):** Intermediario seguro que expone únicamente los métodos necesarios del backend, bloqueando el acceso directo al sistema de archivos desde la vista.
+3. **IPC (Controladores):** Node.js escucha los eventos (`ipcMain.handle`). Al recibir una orden de "Facturar", delega la responsabilidad a los Servicios.
+4. **Services (Lógica de Negocio):** Se inicia una transacción SQLite. Se validan las reglas de negocio (ej. "el stock debe ser > 0").
+5. **Repositories:** Ejecutan el código SQL directamente contra la base de datos `better-sqlite3`.
+
+---
+
+## 💾 Ubicación de la Base de Datos
+
+La base de datos SQLite no reside en la carpeta del código fuente por motivos de seguridad y persistencia. En su lugar, el sistema la aloja automáticamente en la carpeta oficial de datos de usuario del sistema operativo (`userData`).
+- **Windows:** `%APPDATA%\sistema-sales\database.sqlite`
+- **Linux:** `~/.config/sistema-sales/database.sqlite`
+
+---
+
+## ⚙️ Guía de Instalación y Despliegue
+
+### Requisitos Previos
+- Node.js LTS (v20 o v22 recomendado).
+- Git.
+- (Solo para Windows) *Herramientas de compilación de C++ de Visual Studio* si se requiere compilar dependencias nativas desde cero.
+
+### 1. Instalación (Desarrollo)
+```bash
+# Clonar el repositorio
 git clone https://github.com/snxz-dev/sistema-sales.git
 cd sistema-sales
-```
 
-### 3. Instalación de Dependencias
-⚠️ **CRÍTICO:** Ejecute la instalación *exclusivamente desde la terminal nativa de Windows* (no utilice WSL para este paso si su intención final es generar un `.exe` de Windows).
-```cmd
+# Instalar dependencias nativas
 npm install
 ```
+*Nota para usuarios de Windows:* Ejecute `npm install` estrictamente desde la consola de Windows (CMD o PowerShell) para garantizar la correcta compilación de los binarios de SQLite para su plataforma.
 
-### 4. Ejecución en Modo Desarrollo
-Para iniciar la aplicación, compilar el frontend y levantar el proceso principal de Electron:
-```cmd
+### 2. Ejecución (Entorno de Desarrollo)
+Inicia Vite y el proceso de Electron simultáneamente:
+```bash
 npm run dev
 ```
 
----
-
-## 📦 Empaquetado para Producción
-
-Para generar el instalador distribuible (el archivo `.exe` para Windows o `.AppImage` para Linux):
-```cmd
+### 3. Compilación y Generación del .exe
+Para construir la versión de producción optimizada y generar el instalador distribuible:
+```bash
 npm run package
 ```
-Los ejecutables generados se encontrarán en la carpeta `/release/`.
+El instalador generado se almacenará automáticamente en el directorio `/release/`.
 
 ---
-*Desarrollado como proyecto de Titulación por SISTEMA_SALES.*
+
+## 📂 Estructura del Proyecto
+
+```text
+sistema-sales/
+├── electron/                 # Lógica nativa de Backend (Node.js)
+│   ├── controllers/          # Receptores de eventos IPC
+│   ├── database/             # Conexión y configuración SQLite
+│   ├── repositories/         # Accesos directos SQL
+│   ├── services/             # Lógica de negocio y Transacciones
+│   ├── main.ts               # Punto de entrada de Electron
+│   └── preload.ts            # Context Bridge (Seguridad)
+├── src/                      # Frontend (React)
+│   ├── pages/                # Vistas de Módulos (Ventas, Inventario)
+│   └── main.tsx              # Punto de entrada React
+├── package.json              # Scripts y metadatos de electron-builder
+└── vite.config.ts            # Configuración de compilación externa
+```
+
+---
+
+## 🔐 Seguridad y Control
+
+1. **Aislamiento de Contexto:** `nodeIntegration` desactivado por defecto. El frontend jamás toca el disco duro directamente.
+2. **Consultas Parametrizadas:** Todas las consultas SQL (`stmt.run`, `stmt.all`) utilizan binding (`?`) por defecto a través de `better-sqlite3`, neutralizando vulnerabilidades de inyección SQL.
+
+---
+
+## 📜 Licencia y Autoría
+Desarrollado estrictamente con fines académicos y de titulación por el equipo de **SISTEMA_SALES**.
