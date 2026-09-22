@@ -42,6 +42,9 @@ A continuación se presenta la interfaz gráfica del sistema, renderizada nativa
 ### 5. Gestión de Entidades (Clientes, Proveedores, Distritos)
 ![Entidades](assets/entidades.png)
 
+### 6. Reportes Gerenciales
+![Reportes](assets/reportes.png)
+
 ---
 
 ## 🛠 Tecnologías Utilizadas
