@@ -1,0 +1,89 @@
+erDiagram
+    DISTRITO {
+        string id_distrito PK
+        string descripcion
+    }
+    CLIENTE {
+        string ruc PK
+        string razon_social
+        string direccion
+        string telefono
+        date fecha_registro
+        string tipo
+        string condicion
+        string id_distrito FK
+    }
+    PROVEEDOR {
+        string id_proveedor PK
+        string razon_social
+        string direccion
+        string telefono
+        string representante_legal
+        string id_distrito FK
+    }
+    VENDEDOR {
+        string id_vendedor PK
+        string nombres
+        string apellidos
+        float sueldo
+        date fecha_inicio
+        string tipo
+        string id_distrito FK
+    }
+    PRODUCTO {
+        string codigo_producto PK
+        string descripcion
+        float precio
+        int stock_actual
+        int stock_minimo
+        string marca
+        string linea_producto
+        boolean importado
+    }
+    ABASTECIMIENTO {
+        string id_proveedor FK, PK
+        string codigo_producto FK, PK
+        float precio
+    }
+    FACTURA {
+        string numero_factura PK
+        date fecha_registro
+        date fecha_cancelacion
+        string estado
+        float iva
+        string ruc_cliente FK
+        string id_vendedor FK
+    }
+    DETALLE_FACTURA {
+        int id_detalle PK
+        string numero_factura FK
+        string codigo_producto FK
+        int cantidad
+        float precio_venta
+    }
+    ORDEN_COMPRA {
+        string numero_orden PK
+        date fecha_registro
+        date fecha_atencion
+        string estado
+        string id_proveedor FK
+    }
+    DETALLE_ORDEN {
+        int id_detalle_orden PK
+        string numero_orden FK
+        string codigo_producto FK
+        int cantidad_solicitada
+    }
+
+    DISTRITO ||--o{ CLIENTE : "tiene"
+    DISTRITO ||--o{ PROVEEDOR : "tiene"
+    DISTRITO ||--o{ VENDEDOR : "tiene"
+    CLIENTE ||--o{ FACTURA : "genera"
+    VENDEDOR ||--o{ FACTURA : "registra"
+    FACTURA ||--|{ DETALLE_FACTURA : "incluye"
+    PRODUCTO ||--o{ DETALLE_FACTURA : "figura en"
+    PROVEEDOR ||--o{ ORDEN_COMPRA : "recibe"
+    ORDEN_COMPRA ||--|{ DETALLE_ORDEN : "incluye"
+    PRODUCTO ||--o{ DETALLE_ORDEN : "figura en"
+    PROVEEDOR ||--o{ ABASTECIMIENTO : "participa"
+    PRODUCTO ||--o{ ABASTECIMIENTO : "participa"

@@ -1,0 +1,28 @@
+usecaseDiagram
+    actor Vendedor
+    actor Administrador
+    actor "Jefe de Compras" as Comprador
+
+    rectangle "Sistema de Ventas y Abastecimiento" {
+        usecase "Gestionar Clientes" as UC1
+        usecase "Registrar Factura de Venta" as UC2
+        usecase "Gestionar Productos/Inventario" as UC3
+        usecase "Gestionar Vendedores y Distritos" as UC4
+        usecase "Gestionar Proveedores" as UC5
+        usecase "Registrar Orden de Compra" as UC6
+        usecase "Gestionar Abastecimiento" as UC8
+        usecase "Generar Reportes" as UC7
+    }
+
+    Vendedor --> UC1
+    Vendedor --> UC2
+    
+    Administrador --> UC1
+    Administrador --> UC3
+    Administrador --> UC4
+    Administrador --> UC7
+
+    Comprador --> UC3
+    Comprador --> UC5
+    Comprador --> UC6
+    Comprador --> UC8

@@ -1,0 +1,8 @@
+flowchart LR
+    A[React\nFrontend] -- Context Bridge\nIPC --> B[Electron\nNode.js Main]
+    subgraph Backend Lógico
+    B --> C[Controllers]
+    C --> D[Services]
+    D --> E[Repositories]
+    end
+    E -- better-sqlite3 --> F[(SQLite\ndatabase.sqlite)]

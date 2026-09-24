@@ -1,0 +1,88 @@
+classDiagram
+    class Distrito {
+        +String identificador
+        +String descripcion
+        +registrar()
+    }
+    class Cliente {
+        +String ruc
+        +String razonSocial
+        +String direccion
+        +String telefono
+        +Date fechaRegistro
+        +String tipo
+        +String condicion
+        +crear()
+    }
+    class Proveedor {
+        +String identificador
+        +String razonSocial
+        +String direccion
+        +String telefono
+        +String representanteLegal
+        +crear()
+    }
+    class Vendedor {
+        +String identificador
+        +String nombres
+        +String apellidos
+        +Float sueldo
+        +Date fechaInicio
+        +String tipo
+        +crear()
+    }
+    class Producto {
+        +String codigo
+        +String descripcion
+        +Float precioVenta
+        +Int stockActual
+        +Int stockMinimo
+        +String marca
+        +String lineaProducto
+        +Boolean esImportado
+        +actualizarStock()
+    }
+    class Abastecimiento {
+        +Float precio
+        +registrar()
+    }
+    class Factura {
+        +String numero
+        +Date fechaRegistro
+        +Date fechaCancelacion
+        +String estado
+        +Float porcentajeIva
+        +generar()
+    }
+    class DetalleFactura {
+        +Int cantidad
+        +Float precioVenta
+        +calcularSubtotal()
+    }
+    class OrdenCompra {
+        +String numero
+        +Date fechaRegistro
+        +Date fechaAtencion
+        +String estado
+        +generar()
+    }
+    class DetalleOrden {
+        +Int cantidadSolicitada
+        +calcularSubtotal()
+    }
+
+    Distrito "1" -- "*" Cliente : pertenece
+    Distrito "1" -- "*" Proveedor : pertenece
+    Distrito "1" -- "*" Vendedor : pertenece
+    
+    Cliente "1" -- "*" Factura : realiza
+    Vendedor "1" -- "*" Factura : procesa
+    Factura "1" *-- "1..*" DetalleFactura : contiene
+    Producto "1" -- "*" DetalleFactura : incluido en
+    
+    Proveedor "1" -- "*" OrdenCompra : recibe
+    OrdenCompra "1" *-- "1..*" DetalleOrden : contiene
+    Producto "1" -- "*" DetalleOrden : incluido en
+    
+    Proveedor "1" -- "*" Abastecimiento : provee
+    Producto "1" -- "*" Abastecimiento : es provisto
